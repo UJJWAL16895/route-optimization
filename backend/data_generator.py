@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
 import random
-from .bin_locations import locations
+from bin_locations import locations
 
 def generate_data(days=30):
     data = []
