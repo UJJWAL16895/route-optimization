@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
 import random
-from bin_locations import locations
+from .bin_locations import locations
 
 def generate_data(days=30):
     data = []
@@ -76,17 +76,17 @@ def generate_data(days=30):
             })
 
     df = pd.DataFrame(data)
+    
+    # Save files if needed (for main.py usage)
+    # We always save current status for the API to read
+    last_date = df['date'].max()
+    current_df = df[df['date'] == last_date]
+    current_df.to_json("current_bin_status.json", orient="records")
+    
     return df
 
 if __name__ == "__main__":
     df = generate_data()
     print(f"Generated {len(df)} records.")
     df.to_csv("synthetic_bin_data.csv", index=False)
-    print("Saved to synthetic_bin_data.csv")
-    
-    # Also save a 'current_status.json' for the live demo feeling
-    # Taking the data for the 'last day' as current
-    last_date = df['date'].max()
-    current_df = df[df['date'] == last_date]
-    current_df.to_json("current_bin_status.json", orient="records")
-    print("Saved to current_bin_status.json")
+    print("Saved to synthetic_bin_data.csv and current_bin_status.json")

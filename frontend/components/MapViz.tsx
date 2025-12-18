@@ -65,6 +65,10 @@ function MapController({ bins }: { bins: Bin[] }) {
 }
 
 export default function MapViz({ bins, routes }: MapVizProps) {
+    if (!Array.isArray(bins)) {
+        console.error("MapViz: bins is not an array", bins);
+        return null;
+    }
 
     return (
         <div className="w-full h-full z-0 relative">
