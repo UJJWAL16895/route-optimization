@@ -33,21 +33,29 @@ DATA_FILE = os.path.join(BASE_DIR, "current_bin_status.json")
 def read_root():
     return {"status": "System Online", "project": "Antigravity"}
 
+import advanced_ai
+
 @app.get("/bins")
 def get_bins():
-    """Returns current status of all bins"""
-    # If not exists, generate it
+    """Returns current status of all bins with AI Predictions"""
     if not os.path.exists(DATA_FILE):
-        # We need to run generator. 
-        # Ideally import and run, but generator writes to CWD.
-        # Let's switch CWD temporarily or update generator.
-        # For now, let's just run it and assume it writes to CWD (which should be root).
         print("Generating data...")
         generate_data(days=1) 
         
     if os.path.exists(DATA_FILE):
         with open(DATA_FILE, "r") as f:
             data = json.load(f)
+            
+        # Enrich data with AI Predictions
+        for b in data:
+            # Predict Logic
+            prob, time_crit = advanced_ai.predict_overflow_risk(b)
+            p_score = advanced_ai.calculate_priority_score(b)
+            
+            b['overflow_prob'] = prob
+            b['time_to_critical'] = time_crit
+            b['priority_score'] = round(p_score, 1)
+            
         return data
     else:
         return {"error": "Data generation failed"}

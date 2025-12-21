@@ -24,6 +24,7 @@ export default function Home() {
     try {
       // const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://route-optimization-c2mx.onrender.com";
       const res = await axios.get(`/api/bins`);
+      console.log("Fetched bins:", res.data); // Debug AI fields
       setBins(res.data);
     } catch (err) {
       console.error("Failed to fetch bins", err);
@@ -74,7 +75,7 @@ export default function Home() {
           </div>
 
           {/* Overlay UI */}
-          <ControlPanel onOptimize={handleOptimize} loading={loading} />
+          <ControlPanel onOptimize={handleOptimize} loading={loading} routes={routes} />
 
           {/* Title Overlay on Map */}
           <div className="absolute top-4 right-4 z-10 pointer-events-none">
