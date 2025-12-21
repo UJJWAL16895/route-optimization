@@ -22,7 +22,7 @@ export default function Home() {
   // Fetch initial bin data
   const fetchBins = async () => {
     try {
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://route-optimization-c2mx.onrender.com";
       const res = await axios.get(`${API_URL}/bins`);
       setBins(res.data);
     } catch (err) {
@@ -39,7 +39,7 @@ export default function Home() {
   const handleOptimize = async (date: string, trucks: number) => {
     setLoading(true);
     try {
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://route-optimization-c2mx.onrender.com";
       const res = await axios.post(`${API_URL}/optimize`, {
         date,
         truck_count: trucks,
