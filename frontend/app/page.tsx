@@ -22,8 +22,8 @@ export default function Home() {
   // Fetch initial bin data
   const fetchBins = async () => {
     try {
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://route-optimization-c2mx.onrender.com";
-      const res = await axios.get(`${API_URL}/bins`);
+      // const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://route-optimization-c2mx.onrender.com";
+      const res = await axios.get(`/api/bins`);
       setBins(res.data);
     } catch (err) {
       console.error("Failed to fetch bins", err);
@@ -39,8 +39,9 @@ export default function Home() {
   const handleOptimize = async (date: string, trucks: number) => {
     setLoading(true);
     try {
-      const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://route-optimization-c2mx.onrender.com";
-      const res = await axios.post(`${API_URL}/optimize`, {
+      // const API_URL = process.env.NEXT_PUBLIC_API_URL || "https://route-optimization-c2mx.onrender.com";
+      // Use local proxy to avoid CORS
+      const res = await axios.post(`/api/optimize`, {
         date,
         truck_count: trucks,
       });
